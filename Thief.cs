@@ -7,23 +7,23 @@ public class Thief : MonoBehaviour
     [SerializeField] private Transform _firstPoint, _finishPoint;
     [SerializeField] private float _speed;
     [SerializeField] private GameObject _door;
-    bool isGrab;
+    private bool _isGrab;
 
     private void Update()
     {
-        if (isGrab == false)
+        if (_isGrab == false)
         {
             transform.position = Vector2.MoveTowards(transform.position, _finishPoint.transform.position, _speed * Time.deltaTime);
         }
-        else if (isGrab)
+        else if (_isGrab)
         {
             transform.position = Vector2.MoveTowards(transform.position, _firstPoint.transform.position, _speed * Time.deltaTime);
         }
     }
 
-    private void ComeBack()
+    private void LeaveTheHouse()
     {
-        isGrab = true;
+        _isGrab = true;
         _door.SetActive(false);
     }
 
@@ -34,7 +34,7 @@ public class Thief : MonoBehaviour
         if (collision.tag == "Alarm")
         {
             _door.SetActive(true);
-            Invoke("ComeBack", waitingTime);
+            Invoke("LeaveTheHouse", waitingTime);
         }
     }
 }
