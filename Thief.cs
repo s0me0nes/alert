@@ -5,6 +5,7 @@ public class Thief : MonoBehaviour
     [SerializeField] private Transform _firstPoint, _finishPoint;
     [SerializeField] private float _speed;
     [SerializeField] private GameObject _door;
+
     private bool _isGrab;
 
     private void Update()
@@ -19,7 +20,7 @@ public class Thief : MonoBehaviour
         }
     }
 
-    private void LeaveTheHouse()
+    private void Comeback()
     {
         _isGrab = true;
         _door.SetActive(false);
@@ -29,10 +30,10 @@ public class Thief : MonoBehaviour
     {
         float waitingTime = 6f;
 
-        if (collision.tag == "Alarm")
+        if (collision.gameObject.TryGetComponent<Alarm>(out Alarm alarm))
         {
             _door.SetActive(true);
-            Invoke("LeaveTheHouse", waitingTime);
+            Invoke("Comeback", waitingTime);
         }
     }
 }
