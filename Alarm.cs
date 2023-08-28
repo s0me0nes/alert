@@ -1,10 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Alarm : MonoBehaviour
 {
+    [SerializeField] private float _volumeChangeSpeed = 1;
     private AudioSource _alert;
-    private bool _isVolumeUp = false;
-    private float _slowlyChangeVolume = 6;
+    private Coroutine _changeVolumeCoroutine;
 
     private void Start()
     {
@@ -12,32 +14,31 @@ public class Alarm : MonoBehaviour
         _alert.volume = 0;
     }
 
-    private void Update()
+    public void Activation()
     {
-        if (_isVolumeUp)
+        if (_changeVolumeCoroutine != null)
         {
-            _alert.volume += Time.deltaTime / _slowlyChangeVolume;
+            StopCoroutine(_changeVolumeCoroutine);
         }
-        else if (_isVolumeUp == false)
-        {
-            _alert.volume -= Time.deltaTime / _slowlyChangeVolume;
-        }
+
+        _changeVolumeCoroutine = StartCoroutine(ChangeVolume(1));
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Deactivation()
     {
-        if (collision.tag == "Player")
-        {
-            _isVolumeUp = true;
-            _alert.Play();
-        }
+        StopCoroutine(_changeVolumeCoroutine);
+        _changeVolumeCoroutine = StartCoroutine(ChangeVolume(0));
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private IEnumerator ChangeVolume(float targetValue)
     {
-        if (collision.tag == "Player")
+        _alert.Play();
+        var _volumeSpeed = new WaitForSeconds(0.1f);
+
+        while (_alert.volume != targetValue)
         {
-            _isVolumeUp = false;
+            _alert.volume = Mathf.MoveTowards(_alert.volume, targetValue, _volumeChangeSpeed * Time.deltaTime);
+            yield return _volumeSpeed;
         }
     }
 }
