@@ -14,7 +14,7 @@ public class House : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Thief thief))
         {
-            _alarm.Activation();
+            _alarm.Activate();
         }
     }
 
@@ -22,7 +22,7 @@ public class House : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Thief thief))
         {
-            _alarm.Deactivation();
+            _alarm.Deactivate();
         }
     }
 }
