@@ -18,7 +18,7 @@ public class Alarm : MonoBehaviour
         _alert.volume = 0;
     }
 
-    public void Activation()
+    public void Activate()
     {
         if (_changeVolumeCoroutine != null)
         {
@@ -28,7 +28,7 @@ public class Alarm : MonoBehaviour
         _changeVolumeCoroutine = StartCoroutine(ChangeVolume(_volumeOn));
     }
 
-    public void Deactivation()
+    public void Deactivate()
     {
         StopCoroutine(_changeVolumeCoroutine);
         _changeVolumeCoroutine = StartCoroutine(ChangeVolume(_volumeOff));
