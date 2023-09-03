@@ -12,11 +12,13 @@ public class Thief : MonoBehaviour
     {
         if (_isGrab == false)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _finishPoint.transform.position, _speed * Time.deltaTime);
+            transform.position = 
+                Vector2.MoveTowards(transform.position, _finishPoint.transform.position, _speed * Time.deltaTime);
         }
         else if (_isGrab)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _firstPoint.transform.position, _speed * Time.deltaTime);
+            transform.position = 
+                Vector2.MoveTowards(transform.position, _firstPoint.transform.position, _speed * Time.deltaTime);
         }
     }
 
@@ -33,7 +35,7 @@ public class Thief : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Alarm>(out Alarm alarm))
         {
             _door.SetActive(true);
-            Invoke("Comeback", waitingTime);
+            Invoke(nameof(Comeback), waitingTime);
         }
     }
 }
